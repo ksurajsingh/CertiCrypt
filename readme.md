@@ -1,7 +1,7 @@
 # TODO 
 
 ## Phase - 1 
-- [ ] Block Structure with 
+- [x] Block Structure with 
       - student ID 
       - semester,subjects & marks 
       - Timestamp
