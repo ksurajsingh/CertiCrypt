@@ -35,3 +35,10 @@
 - [ ] sample data (demo markscard)
 - [ ] Screenshots + README
 - [ ] Short report (explain structure + feature)
+
+## Experimental 
+
+- [ ] See if you can generate the hash for the whole data structure of the block instead of using another instance of *character*  
+      - reduces code complexity   
+      - increase code readability  
+

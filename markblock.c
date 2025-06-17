@@ -69,7 +69,8 @@ markBlock create_block(char *student_id,int semester,subjectMark *subjects, int 
 int verifyChain(markBlock *chain,int length){
   for(int i=1;i<length;i++){
     char expected_hash[65];
-    compute_hash(&chain[i-1]);
+    printf("expected hash : %c",expected_hash);
+    compute_hash(&chain[i-1]); // seems unnecessary but that's how it is working right now
     strncpy(expected_hash,chain[i-1].hash,65);
     if (strncmp(expected_hash,chain[i].prev_hash,64)!=0){
       printf("❎ Block %d is tampered! \nHash mismatch",i);
