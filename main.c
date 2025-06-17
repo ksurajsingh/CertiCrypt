@@ -1,11 +1,11 @@
 #include "markblock.c"
 
 int main(){
-  subjectMark sem1[]={{"Math",88},{"DSA",91}};
-  markBlock block1 = create_block("2023CS001",1,sem1,2,"0");
+  const subjectMark sem1[]={{"Math",88},{"DSA",91}};
+  const markBlock block1 = create_block("2023CS001",1,sem1,2,"0");
 
-  subjectMark sem2[]={{"OS",89},{"Crypto",93}};
-  markBlock block2 = create_block("2023CS001",2,sem2,2,block1.hash);
+  const subjectMark sem2[]={{"OS",89},{"Crypto",93}};
+  const markBlock block2 = create_block("2023CS001",2,sem2,2,block1.hash);
 
   markBlock chain[] ={block1,block2};
 
@@ -16,7 +16,7 @@ int main(){
 
   // tamper test
   printf("before tampering: %s",chain[0].hash);
-  chain[0].subjects[1].mark=95;
+  // chain[0].subjects[1].mark=95;
   printf("\nAfter tampering: %s\n",chain[0].hash);
   // tamper test
   print_block(&chain[0]);

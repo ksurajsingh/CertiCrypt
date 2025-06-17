@@ -8,28 +8,28 @@ Its currently considered that the last block isn't verified
       - semester,subjects & marks  
       - Timestamp  
       - PreviousHash  
-- [x] SHA-256 hash chaining 
+- [x] SHA-256 hash chaining   
       - [x] Chain verification   
       - [x] Block verification  
 - [ ] Digital Signatures
 - [ ] CLI to **[ Started ]**    
-      - Add a new block   
-      - verify chain integrity  
-      - verify signature   
+      - [ ] Add a new block   
+      - [ ] verify chain integrity  
+      - [ ] verify signature   
 - [ ] Json file storage  [ store hashes as well - 2 step verification (this and the verificatoin using ```prev_hash``` ) ]  
 
 ## Phase - 2 
 
 - [ ] Merkle Tree  
-      - Hash subject-mark pair  
-      - Store merkle root in block   
-      - Support merkle proof generation and verification   
+      - [ ] Hash subject-mark pair  
+      - [ ] Store merkle root in block   
+      - [ ] Support merkle proof generation and verification   
 - [ ] Tamper Detection   
-      - Validate full chain + merkle integrity  
-      - CLI to check student's markscard integrity  
+      - [ ] Validate full chain + merkle integrity  
+      - [ ] CLI to check student's markscard integrity  
 - [ ] ZKP-like logic (simulated)  
-      - GPA > X show proof without revealing all marks   
-      - Use selective disclose or dummy logic   
+      - [ ] GPA > X show proof without revealing all marks   
+      - [ ] Use selective disclose or dummy logic   
 - [ ] GUI (Tkinter) or web(Flask) frontend (if time permits)   
 - [ ] User restrictive priveleges - the data nor the hash should be modified . [ at certain intervals the hash of the blocks should be updated and verified. ]  
 

@@ -45,7 +45,7 @@ void compute_hash(markBlock *block){
   to_hex_string(hash_bin,block->hash);
 }
 
-markBlock create_block(char *student_id,int semester,subjectMark *subjects, int  subject_count, char *prev_hash){
+markBlock create_block(const char *student_id,const int semester,const subjectMark *subjects,const int subject_count,const char *prev_hash){
   markBlock block;
   memset(&block,0,sizeof(markBlock));
   strncpy(block.student_id,student_id,MAX_STR-1);
