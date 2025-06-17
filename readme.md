@@ -8,6 +8,7 @@ Its currently considered that the last block isn't verified
       - semester,subjects & marks  
       - Timestamp  
       - PreviousHash  
+      - [x] immutability
 - [x] SHA-256 hash chaining   
       - [x] Chain verification   
       - [x] Block verification  
