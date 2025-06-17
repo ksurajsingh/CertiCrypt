@@ -66,14 +66,36 @@ markBlock create_block(char *student_id,int semester,subjectMark *subjects, int 
   return block;
 }
 
+void get_hash(markBlock *block,char *out_hash){
+  unsigned char temp_hash[SHA256_DIGEST_LENGTH];
+
+  // we consider that the hacker can change the hash of the block aswell and so 
+  // we compute the has while verification
+  char data[200];
+  char temp[200];
+  snprintf(data,sizeof(data), "%s%d%ld%s",block->student_id,block->semester,block->timestamp,block->prev_hash);
+  for(int i=0;i<block->subject_count;i++){
+    snprintf(
+        temp,sizeof(temp), "%s%d",block->subjects[i].subject,block->subjects[i].mark);
+    strncat(data,temp,sizeof(data)-strlen(data)-1);
+  }
+  SHA256((unsigned char*)data,strlen(data),temp_hash);
+  to_hex_string(temp_hash,out_hash);
+}
+
 int verifyChain(markBlock *chain,int length){
   for(int i=1;i<length;i++){
-    char expected_hash[65];
-    printf("expected hash : %c",expected_hash);
-    compute_hash(&chain[i-1]); // seems unnecessary but that's how it is working right now
-    strncpy(expected_hash,chain[i-1].hash,65);
-    if (strncmp(expected_hash,chain[i].prev_hash,64)!=0){
-      printf("❎ Block %d is tampered! \nHash mismatch",i);
+    if (strncmp(chain[i-1].hash,chain[i].prev_hash,64)!=0){ // if the hacker tampers the data AND THE HASH - we check the hash stored in the `prev_hash` of the next block
+                                                          //This is efficient since its bypass would make the hacker to change the hash of al the blocks after the tampered block!
+      printf("❎ Block %d is tampered! \nHash mismatch",i-1);
+      return 0;
+    }
+    char expected_hash[65]; // actual hash
+    get_hash(&chain[i-1],expected_hash);
+    if(strncmp(expected_hash,chain[i-1].hash,64)!=0){
+      // if the hacker tampers the data and leaves the hash as it is [ original hash ] so that the block could impersonate authenticity.
+      // This makes sure to check the stored [ present ] hash with the actual hash [ computed for the present data ]
+      printf("❎ Block %d is tampered! \nData mismatch!",i-1);
       return 0;
     }
   }

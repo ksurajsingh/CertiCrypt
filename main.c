@@ -12,8 +12,16 @@ int main(){
   print_block(&chain[0]);
   printf("\n\n");
   print_block(&chain[1]);
-  chain[1].subjects[0].mark=100;
-  compute_hash(&chain[1]);
+
+
+  // tamper test
+  printf("before tampering: %s",chain[0].hash);
+  chain[0].subjects[1].mark=95;
+  printf("\nAfter tampering: %s\n",chain[0].hash);
+  // tamper test
+  print_block(&chain[0]);
+  printf("\n\n");
+  print_block(&chain[1]);
   verifyChain(chain,2);
 
   return 0;

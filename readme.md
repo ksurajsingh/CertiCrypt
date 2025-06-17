@@ -1,18 +1,22 @@
 # TODO 
 
+Its currently considered that the last block isn't verified
+
 ## Phase - 1 
 - [x] Block Structure with   
       - student ID   
       - semester,subjects & marks  
       - Timestamp  
       - PreviousHash  
-- [ ] SHA-256 hash chaining **[ in Progress ]**
+- [x] SHA-256 hash chaining 
+      - [x] Chain verification   
+      - [x] Block verification  
 - [ ] Digital Signatures
 - [ ] CLI to **[ Started ]**    
       - Add a new block   
       - verify chain integrity  
       - verify signature  
-- [ ] Json file storage 
+- [ ] Json file storage  [ store hashes as well - 2 step verification (this and the verificatoin using ```prev_hash``` ) ]
 
 ## Phase - 2 
 
@@ -27,6 +31,7 @@
       - GPA > X show proof without revealing all marks   
       - Use selective disclose or dummy logic   
 - [ ] GUI (Tkinter) or web(Flask) frontend (if time permits)   
+- [ ] User restrictive priveleges - the data nor the hash should be modified . [ at certain intervals the hash of the blocks should be updated and verified. ]
 
 ## Deliverables 
 
@@ -38,6 +43,7 @@
 
 ## Experimental 
 
+- [ ] consensus  [ multiple chains]
 - [ ] See if you can generate the hash for the whole data structure of the block instead of using another instance of *character*  
       - reduces code complexity   
       - increase code readability  
