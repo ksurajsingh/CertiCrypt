@@ -15,8 +15,8 @@ Its currently considered that the last block isn't verified
 - [ ] CLI to **[ Started ]**    
       - Add a new block   
       - verify chain integrity  
-      - verify signature  
-- [ ] Json file storage  [ store hashes as well - 2 step verification (this and the verificatoin using ```prev_hash``` ) ]
+      - verify signature   
+- [ ] Json file storage  [ store hashes as well - 2 step verification (this and the verificatoin using ```prev_hash``` ) ]  
 
 ## Phase - 2 
 
@@ -31,20 +31,19 @@ Its currently considered that the last block isn't verified
       - GPA > X show proof without revealing all marks   
       - Use selective disclose or dummy logic   
 - [ ] GUI (Tkinter) or web(Flask) frontend (if time permits)   
-- [ ] User restrictive priveleges - the data nor the hash should be modified . [ at certain intervals the hash of the blocks should be updated and verified. ]
+- [ ] User restrictive priveleges - the data nor the hash should be modified . [ at certain intervals the hash of the blocks should be updated and verified. ]  
 
 ## Deliverables 
 
 - [ ] code 
-- [ ] CLI or GUI app
-- [ ] sample data (demo markscard)
-- [ ] Screenshots + README
-- [ ] Short report (explain structure + feature)
+- [ ] CLI or GUI app  
+- [ ] sample data (demo markscard)  
+- [ ] Screenshots + README  
+- [ ] Short report (explain structure + feature)  
 
 ## Experimental 
 
-- [ ] consensus  [ multiple chains]
+- [ ] consensus  [ multiple chains]  
 - [ ] See if you can generate the hash for the whole data structure of the block instead of using another instance of *character*  
-      - reduces code complexity   
+      - reduces code complexity    
       - increase code readability  
-
