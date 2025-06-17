@@ -22,7 +22,7 @@ int main(){
   print_block(&chain[0]);
   printf("\n\n");
   print_block(&chain[1]);
-  verifyChain(chain,2);
+  verifyChain(chain,2); // give the length as ```total blocks - 1``` since last block doesn't need to be verified [ dummy ]
 
   return 0;
 }

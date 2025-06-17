@@ -4,6 +4,8 @@
 #include<time.h>
 #include<openssl/sha.h>
 
+#include "digitalsignature.c"
+
 #define MAX_SUBJECTS 20
 #define MAX_STR 256
 
@@ -20,6 +22,9 @@ typedef struct{
   time_t timestamp;
   char prev_hash[65]; // SHA-256 = 64 hex chars + null 
   char hash[65];
+
+  unsigned char signature[512]; // 4096 bit rsa
+  size_t sig_len;
 } markBlock;
 
 void to_hex_string(unsigned char *hash,char *output){
@@ -63,6 +68,13 @@ markBlock create_block(const char *student_id,const int semester,const subjectMa
   else 
     strcpy(block.prev_hash,"0");
   compute_hash(&block);
+
+  if(!sign_block(block.hash,strlen(block.hash),block.signature,&block.sig_len))
+    fprintf(stderr,"\n❌ Failed to sign the block!\n");
+  else {
+    printf("\n✔️Signed!\n");
+  }
+
   return block;
 }
 
@@ -83,8 +95,20 @@ void get_hash(markBlock *block,char *out_hash){
   to_hex_string(temp_hash,out_hash);
 }
 
+
+void verifyBlock(markBlock *block,int i){
+    if(!verify_block(block->hash,strlen(block->hash),block->signature,&block->sig_len))
+      fprintf(stderr,"\n❌Verification failed.\nThe user who signed block no: %d\nIs not Authentic[registered]!\n",i);
+    else {
+      printf("\nBlock %d verified.\n✔️ Valid user!\n",i);
+    }
+  }
+
+
 int verifyChain(markBlock *chain,int length){
-  for(int i=1;i<length;i++){
+  for(int i=1;i<=length;i++){
+    printf("\nVerifying block %d signature. . . \n",i-1);
+    verifyBlock(&chain[i-1],i-1);
     if (strncmp(chain[i-1].hash,chain[i].prev_hash,64)!=0){ // if the hacker tampers the data AND THE HASH - we check the hash stored in the `prev_hash` of the next block
                                                           //This is efficient since its bypass would make the hacker to change the hash of al the blocks after the tampered block!
       printf("❎ Block %d is tampered! \nHash mismatch",i-1);
@@ -102,6 +126,7 @@ int verifyChain(markBlock *chain,int length){
   printf("✅Chain is valid!");
   return 1;
 }
+
 
 void print_block(markBlock *block){
   printf("Student ID: %s\n",block->student_id);

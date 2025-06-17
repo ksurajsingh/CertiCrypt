@@ -1,6 +1,8 @@
 # TODO 
 
-Its currently considered that the last block isn't verified
+[Immediate]
+- Its currently considered that the last block isn't verified 
+fix: create a new dummy block as the latest block [ or look for the way that is used in practise ]
 
 ## Phase - 1 
 - [x] Block Structure with   
@@ -12,7 +14,7 @@ Its currently considered that the last block isn't verified
 - [x] SHA-256 hash chaining   
       - [x] Chain verification   
       - [x] Block verification  
-- [ ] Digital Signatures
+- [x] Digital Signatures
 - [ ] CLI to **[ Started ]**    
       - [ ] Add a new block   
       - [ ] verify chain integrity  
@@ -48,3 +50,8 @@ Its currently considered that the last block isn't verified
 - [ ] See if you can generate the hash for the whole data structure of the block instead of using another instance of *character*  
       - reduces code complexity    
       - increase code readability  
+
+## Documentation
+1. You'd should always read code and understand - that is the main reason behind existence of **COMMENTS**
+2. Make sure to generate your private and public keys for digital signature and name them as ```private.pem``` and ```public.pem```
+3. Remind me to create a makefile [here](instagram.com/ksurajsingh_13)
