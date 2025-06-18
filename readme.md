@@ -18,7 +18,7 @@ fix: create a new dummy block as the latest block [ or look for the way that is 
 
 - [x] Digital Signatures
 
-- [x] CLI+TUI to **[ Started ]**    
+- [x] CLI+TUI to
       - [x] Add a new block   
       - [x] Display chain
       - [x] Verify digital signature
