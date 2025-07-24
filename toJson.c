@@ -46,54 +46,6 @@ void save_chain_to_json(markBlock *chain, int length, const char *filename) {
     printf("☑️ Blocks appended to %s\n", filename);
 }
 
-
-// void save_chain_to_json(markBlock *chain,int length, const char *filename){
-//   cJSON *jchain = cJSON_CreateArray();
-//
-//   for(int i=0;i<length;i++){
-//     cJSON *jblock=cJSON_CreateObject();
-//     cJSON_AddStringToObject(jblock,"student_id",chain[i].student_id);
-//     cJSON_AddNumberToObject(jblock,"semester",chain[i].semester);
-//     char timestamp_str[64];
-//     strftime(timestamp_str,sizeof(timestamp_str),"%Y-%m-%d %H:%M:%S",localtime(&chain[i].timestamp));
-//     cJSON_AddStringToObject(jblock,"timestamp",timestamp_str);
-//     cJSON_AddStringToObject(jblock,"prev_hash",chain[i].prev_hash);
-//     cJSON_AddStringToObject(jblock,"hash",chain[i].hash);
-//
-//     // saving signature
-//     unsigned char encoded_sig[1024];
-//     for(size_t j=0;j<chain[i].sig_len;j++){
-//       int encoded_len=EVP_EncodeBlock(encoded_sig, (unsigned char *)chain[i].signature, chain[i].sig_len);
-//       // deprecated 
-//       // snprintf(&sig_hex[j*2],3,"%02x",chain[i].signature[j]);
-//     }
-//     cJSON_AddStringToObject(jblock,"signature",(char *)encoded_sig);
-//
-//     // saving subjects 
-//     cJSON *jsubjects = cJSON_CreateArray();
-//     for(int j=0;j<chain[i].subject_count;j++){
-//       cJSON *jsub=cJSON_CreateObject();
-//       cJSON_AddStringToObject(jsub,"subject",chain[i].subjects[j].subject);
-//       cJSON_AddNumberToObject(jsub,"mark",chain[i].subjects[j].mark);
-//       cJSON_AddItemToArray(jsubjects,jsub);
-//     }
-//     cJSON_AddItemToObject(jblock,"subjects",jsubjects);
-//     cJSON_AddItemToArray(jchain,jblock);
-//   }
-//
-//   char *string=cJSON_Print(jchain);
-//   FILE *fp=fopen(filename,"a");
-//   if (fp){
-//     fputs(string,fp);
-//     fclose(fp);
-//     printf("☑️ JSON saved to %s\n",filename);
-//   }
-//   cJSON_Delete(jchain);
-//   free(string);
-//
-// }
-
-
 void load_chain_from_json(markBlock *loaded_chain, int *loaded_len, const char *filename) {
     FILE *f = fopen(filename, "r");
     if (!f) {
@@ -118,7 +70,9 @@ void load_chain_from_json(markBlock *loaded_chain, int *loaded_len, const char *
         b->semester = cJSON_GetObjectItem(block_json, "semester")->valueint;
 
 
-        strncpy(b->timestamp_str, cJSON_GetObjectItem(block_json, "timestamp")->valuestring, 63);
+
+        strncpy(b->timestamp_str, cJSON_GetObjectItem(block_json, "timestamp")->valuestring, sizeof(b->timestamp_str)-1);
+        // strncpy(b->timestamp_str, cJSON_GetObjectItem(block_json, "timestamp")->valuestring, 63);
 
         strncpy(b->prev_hash, cJSON_GetObjectItem(block_json, "prev_hash")->valuestring, 64);
         strncpy(b->hash, cJSON_GetObjectItem(block_json, "hash")->valuestring, 64);

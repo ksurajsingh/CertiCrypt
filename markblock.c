@@ -39,7 +39,7 @@ void compute_hash(markBlock *block){
   memset(data,0,sizeof(data));
   char temp[256];
 
-  snprintf(data,sizeof(data),"%s%d%ld%s",block->student_id,block->semester,block->timestamp_str,block->prev_hash);
+  snprintf(data,sizeof(data),"%s%d%s%s",block->student_id,block->semester,block->timestamp_str,block->prev_hash);
 
   for (int i=0;i<block->subject_count;i++){
     snprintf(temp,sizeof(temp),"%s%d",block->subjects[i].subject,block->subjects[i].mark);
@@ -124,7 +124,7 @@ int verifyChain(markBlock *chain,int length){
     if(strncmp(expected_hash,chain[i-1].hash,64)!=0){
       // if the hacker tampers the data and leaves the hash as it is [ original hash ] so that the block could impersonate authenticity.
       // This makes sure to check the stored [ present ] hash with the actual hash [ computed for the present data ]
-      printf("❎ Block %d is tampered! \nData mismatch!",i-1);
+      printf("❎ Block %d is tampered! \nData mismatch!\n Expected hash: %s\n hash from json:%s",i-1,expected_hash,chain[i-1].hash);
       return 0;
     }
   }
