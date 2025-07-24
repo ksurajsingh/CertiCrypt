@@ -1,9 +1,9 @@
 # TODO 
 
---  
-[FIXED][Immediate]
-- Its currently considered that the last block isn't verified 
-fix: create a new dummy block as the latest block [ or look for the way that is used in practise ]
+- [ ] [Immediate][FIXED]
+  - Its currently considered that the last block isn't verified 
+  fix: create a new dummy block as the latest block [ or look for the way that is used in practise ]
+  fix used: removed the redundancy check for the final block.
 --  
 
 ## Phase - 1 
