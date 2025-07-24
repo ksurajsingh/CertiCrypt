@@ -10,6 +10,12 @@
 #define MAX_STR 256
 
 typedef struct{
+  char user_id[32];
+  EVP_PKEY *private_key;
+  EVP_PKEY *public_key;
+} User;
+
+typedef struct{
   char subject[MAX_STR];
   int mark;
 } subjectMark;
@@ -22,7 +28,7 @@ typedef struct{
   time_t timestamp;
   char prev_hash[65]; // SHA-256 = 64 hex chars + null 
   char hash[65];
-
+  char signed_by[32];
   unsigned char signature[512]; // 4096 bit rsa
   size_t sig_len;
 } markBlock;

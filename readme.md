@@ -25,7 +25,7 @@ fix: create a new dummy block as the latest block [ or look for the way that is 
       - [x] verify chain integrity  
 
 - [ ] Json file storage  [ store hashes as well - 2 step verification (this and the verificatoin using ```prev_hash``` ) ]  
-     - [ ] save to json
+     - [x] save to json
      - [ ] build from json
 
 
@@ -58,11 +58,11 @@ fix: create a new dummy block as the latest block [ or look for the way that is 
 - [ ] sample data (demo markscard)  
 - [ ] Screenshots + README  
 - [ ] Short report (explain structure + feature)  
-- [ ] User Authentication        [ v0.1.0 ]
-- [ ] Verification of marks card [ v0.2.0 ]
-- [ ] Alteration of marks card   [ v0.3.0 ]
-- [ ] Demo of a broken `tampered` chain [ v0.4.0 ]
-- [ ] web client                 [ v0.5.0 ]
+- [ ] Verification of marks card [ v0.1.0 ]
+- [ ] Alteration of marks card   [ v0.2.0 ]
+- [ ] Demo of a broken `tampered` chain [ v0.3.0 ]
+- [ ] web client                 [ v0.4.0 ]
+- [ ] photo                      [ v0.5.0 ]
 - [ ] hosting 
 
 ## Experimental 

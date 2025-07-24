@@ -1,5 +1,3 @@
-About
-RUN SPEED TEST
 #include<cjson/cJSON.h>
 
 void save_chain_to_json(markBlock *chain,int length, const char *filename){
@@ -9,14 +7,16 @@ void save_chain_to_json(markBlock *chain,int length, const char *filename){
     cJSON *jblock=cJSON_CreateObject();
     cJSON_AddStringToObject(jblock,"student_id",chain[i].student_id);
     cJSON_AddNumberToObject(jblock,"semester",chain[i].semester);
-    cJSON_AddStringToObject(jblock,"timestamp",chain[i].timestamp);
+    char timestamp_str[64];
+    strftime(timestamp_str,sizeof(timestamp_str),"%Y-%m-%d %H:%M:%S",localtime(&chain[i].timestamp));
+    cJSON_AddStringToObject(jblock,"timestamp",timestamp_str);
     cJSON_AddStringToObject(jblock,"prev_hash",chain[i].prev_hash);
     cJSON_AddStringToObject(jblock,"hash",chain[i].hash);
 
     // saving signature
     char sig_hex[513]={0};
     for(size_t j=0;j<chain[i].sig_len;j++){
-      snprintf(&sig_hex[j*2],"%02x",(unsigned char *)chain[i].signature[j]);
+      snprintf(&sig_hex[j*2],3,"%02x",chain[i].signature[j]);
     }
     cJSON_AddStringToObject(jblock,"signature",sig_hex);
 
@@ -28,7 +28,7 @@ void save_chain_to_json(markBlock *chain,int length, const char *filename){
       cJSON_AddNumberToObject(jsub,"mark",chain[i].subjects[j].mark);
       cJSON_AddItemToArray(jsubjects,jsub);
     }
-    cJSON_AddStringToObject(jblock,"subjects",jsubjects);
+    cJSON_AddItemToObject(jblock,"subjects",jsubjects);
     cJSON_AddItemToArray(jchain,jblock);
   }
 
