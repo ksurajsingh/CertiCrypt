@@ -113,13 +113,12 @@ void verifyBlock(markBlock *block,int i){
 int verifyChain(markBlock *chain,int length){
   for(int i=1;i<=length;i++){
     printf("\nVerifying block %d signature. . . \n",i-1);
+    // VERIFYING SIGNATURE - for the ownership
     verifyBlock(&chain[i-1],i-1);
-    if(i==length) continue;
-    if (strncmp(chain[i-1].hash,chain[i].prev_hash,64)!=0){ // if the hacker tampers the data AND THE HASH - we check the hash stored in the `prev_hash` of the next block
-                                                          //This is efficient since its bypass would make the hacker to change the hash of al the blocks after the tampered block!
-      printf("👹 Block %d is tampered!\nHash mismatch!\nHash for block %d: %s\n⚠️BUT⚠️\nPrevious Hash for block %d: %s",i-1,i-1,chain[i-1].hash,i,chain[i].prev_hash);
-      return 0;
-    }
+
+   
+    // VERIFYING BLOCK INTEGRITY 
+
     char expected_hash[65]; // actual hash
     get_hash(&chain[i-1],expected_hash);
     if(strncmp(expected_hash,chain[i-1].hash,64)!=0){
@@ -128,6 +127,18 @@ int verifyChain(markBlock *chain,int length){
       printf(" 👹 Block %d is tampered!\nData mismatch!\n Hash found: %s\n Actual hash for that data:%s\n Which is evidence of data being tampered after the block was created! ☠️",i-1,chain[i-1].hash,expected_hash);
       return 0;
     }
+    if(i==length) continue;
+
+
+
+    // VERIFYING CHAIN INTEGRITY
+
+    if (strncmp(chain[i-1].hash,chain[i].prev_hash,64)!=0){ // if the hacker tampers the data AND THE HASH - we check the hash stored in the `prev_hash` of the next block
+                                                          //This is efficient since its bypass would make the hacker to change the hash of al the blocks after the tampered block!
+      printf("👹 Block %d is tampered!\nHash mismatch!\nHash for block %d: %s\n⚠️BUT⚠️\nPrevious Hash for block %d: %s",i-1,i-1,chain[i-1].hash,i,chain[i].prev_hash);
+      return 0;
+    }
+    
   }
   printf("✅Chain is valid!");
   return 1;
