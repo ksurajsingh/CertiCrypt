@@ -65,6 +65,8 @@
 - [x] Demo of a broken `tampered` chain [ v0.3.0 ] [ will tamper `totamper.json` and rename it to `personal_tampered.json` ]
 - [ ] web client                 [ v0.4.0 ]
 - [ ] photo                      [ v0.5.0 ]
+- [x] CGPA
+- [X] SGPA
 - [ ] hosting 
 
 ## Experimental 
