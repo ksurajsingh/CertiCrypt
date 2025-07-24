@@ -1,6 +1,7 @@
 #include<ncurses.h>
 #include<stdlib.h>
 #include "markblock.c"
+#include "toJson.c"
 
 int show_menu(){
   initscr();
@@ -13,14 +14,15 @@ int show_menu(){
     "2. Display the chain",
     "3. Verify Chain [ also verifies Block ]",
     "4. Verify Block [ signature ]",
-    "5. Exit"      
+    "5. Save to Json",      
+    "6. Exit"
   };
 
   int choice,highlight=0;
 
   while(1){
     clear();
-    for(int i=0;i<5;i++){
+    for(int i=0;i<6;i++){
       if(i==highlight)
         attron(A_REVERSE);
       mvprintw(i+1,2,choices[i]);
@@ -30,10 +32,10 @@ int show_menu(){
     int c = getch();
     switch(c){
       case KEY_UP:
-        highlight=(highlight==0)?4:highlight-1;
+        highlight=(highlight==0)?5:highlight-1;
         break;
       case KEY_DOWN:
-        highlight=(highlight==4)?0:highlight+1;
+        highlight=(highlight==5)?0:highlight+1;
         break;
       case 10: // enter key
         choice=highlight;
@@ -97,8 +99,12 @@ int main(){
           }
           getchar();
           break;
-
       case 4:
+          char filename[50];
+          printf("\nEnter the filename to save in: ");
+          scanf("%s",&filename);
+          save_chain_to_json(chain,chain_len,filename);
+      case 5:
           printf("\n 👋 Bye . . . .\n");
           exit(0);
 
