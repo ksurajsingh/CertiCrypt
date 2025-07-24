@@ -1,7 +1,35 @@
 #include<cjson/cJSON.h>
 #include<time.h>
 
+
 void save_chain_to_json(markBlock *chain, int length, const char *filename) {
+    // Check if file exists and read last line
+    FILE *fprev = fopen(filename, "r");
+    if (fprev) {
+        char line[8192];
+        char last_line[8192] = {0};
+
+        while (fgets(line, sizeof(line), fprev)) {
+            if (strlen(line) > 1)
+                strcpy(last_line, line);
+        }
+        fclose(fprev);
+
+        if (strlen(last_line) > 0) {
+            cJSON *last_block = cJSON_Parse(last_line);
+            if (last_block) {
+                cJSON *last_hash = cJSON_GetObjectItem(last_block, "hash");
+                if (last_hash && cJSON_IsString(last_hash)) {
+                    // Update only if the first block has prev_hash as "0"
+                    if (strcmp(chain[0].prev_hash, "0") == 0)
+                        strncpy(chain[0].prev_hash, last_hash->valuestring, sizeof(chain[0].prev_hash) - 1);
+                }
+                cJSON_Delete(last_block);
+            }
+        }
+    }
+
+    // Now append blocks as before
     FILE *fp = fopen(filename, "a");
     if (!fp) {
         perror("fopen");
@@ -12,10 +40,7 @@ void save_chain_to_json(markBlock *chain, int length, const char *filename) {
         cJSON *jblock = cJSON_CreateObject();
         cJSON_AddStringToObject(jblock, "student_id", chain[i].student_id);
         cJSON_AddNumberToObject(jblock, "semester", chain[i].semester);
-
-
         cJSON_AddStringToObject(jblock, "timestamp", chain[i].timestamp_str);
-
         cJSON_AddStringToObject(jblock, "prev_hash", chain[i].prev_hash);
         cJSON_AddStringToObject(jblock, "hash", chain[i].hash);
 
@@ -45,6 +70,7 @@ void save_chain_to_json(markBlock *chain, int length, const char *filename) {
     fclose(fp);
     printf("☑️ Blocks appended to %s\n", filename);
 }
+
 
 void load_chain_from_json(markBlock *loaded_chain, int *loaded_len, const char *filename) {
     FILE *f = fopen(filename, "r");

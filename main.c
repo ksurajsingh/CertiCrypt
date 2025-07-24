@@ -110,6 +110,7 @@ int main(){
           char filename[50];
           printf("\nEnter the filename to save in: ");
           scanf("%s",filename);
+          getchar();
           save_chain_to_json(chain,chain_len,filename);
           break;
       case 5:{

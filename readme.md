@@ -24,9 +24,9 @@ fix: create a new dummy block as the latest block [ or look for the way that is 
       - [x] Verify digital signature
       - [x] verify chain integrity  
 
-- [ ] Json file storage  [ store hashes as well - 2 step verification (this and the verificatoin using ```prev_hash``` ) ]  
+- [x] Json file storage  [ store hashes as well - 2 step verification (this and the verificatoin using ```prev_hash``` ) ]  
      - [x] save to json
-     - [ ] build from json
+     - [x] build from json
 
 
 ## Phase - 2 
