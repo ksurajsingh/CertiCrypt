@@ -68,6 +68,7 @@
 - [x] CGPA
 - [X] SGPA
 - [ ] hosting 
+- [ ] prepare save_to_json , load_from_json
 
 ## Experimental 
 

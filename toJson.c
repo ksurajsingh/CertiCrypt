@@ -123,68 +123,6 @@ void load_chain_from_json(markBlock *loaded_chain, int *loaded_len, const char *
     printf("✅ Loaded %d blocks from %s\n", *loaded_len, filename);
 }
 
-// void load_chain_from_json(markBlock *loaded_chain, int *loaded_len, const char *filename) {
-//     FILE *f = fopen(filename, "r");
-//     if (!f) {
-//         perror("Couldn't open JSON file");
-//         return;
-//     }
-//
-//     fseek(f, 0, SEEK_END);
-//     long size = ftell(f);
-//     rewind(f);
-//
-//     char *data = malloc(size + 1);
-//     fread(data, 1, size, f);
-//     data[size] = '\0';
-//     fclose(f);
-//
-//     cJSON *json = cJSON_Parse(data);
-//     free(data);
-//
-//     if (!json || !cJSON_IsArray(json)) {
-//         printf("❌ Invalid JSON format.\n");
-//         cJSON_Delete(json);
-//         return;
-//     }
-//
-//     int i = 0;
-//     cJSON *block_json;
-//     cJSON_ArrayForEach(block_json, json) {
-//         if (i >= MAX_BLOCKS) break;
-//
-//         markBlock *b = &loaded_chain[i];
-//         memset(b, 0, sizeof(markBlock));
-//
-//         strncpy(b->student_id, cJSON_GetObjectItem(block_json, "student_id")->valuestring, MAX_STR-1);
-//         b->semester = cJSON_GetObjectItem(block_json, "semester")->valueint;
-//         struct tm tm_val=0;
-//           strptime(cJSON_GetObjectItem(block_json,"timestamp")->valuestring,"%Y-%m-%d %H:%M:%S",&tm_val);
-//         b->timestamp = mktime(&tm_val);
-//         strncpy(b->prev_hash, cJSON_GetObjectItem(block_json, "prev_hash")->valuestring, 64);
-//         strncpy(b->hash, cJSON_GetObjectItem(block_json, "hash")->valuestring, 64);
-//
-//         // Signature (base64)
-//         const char *sig_base64 = cJSON_GetObjectItem(block_json, "signature")->valuestring;
-//        b->sig_len=EVP_DecodeBlock(b->signature, (const unsigned char *)sig_base64, strlen(sig_base64));
-//
-//         // Subjects
-//         cJSON *subjects = cJSON_GetObjectItem(block_json, "subjects");
-//         b->subject_count = cJSON_GetArraySize(subjects);
-//         for (int j = 0; j < b->subject_count && j < MAX_SUBJECTS; j++) {
-//             cJSON *subj = cJSON_GetArrayItem(subjects, j);
-//             strncpy(b->subjects[j].subject, cJSON_GetObjectItem(subj, "subject")->valuestring, MAX_STR-1);
-//             b->subjects[j].mark = cJSON_GetObjectItem(subj, "mark")->valueint;
-//         }
-//
-//         i++;
-//     }
-//
-//     *loaded_len = i;
-//     cJSON_Delete(json);
-//     printf("✅ Loaded %d blocks from %s\n", *loaded_len, filename);
-// }
-//
 void verify_chain_from_json(markBlock *loaded_chain,int loaded_len){
   verifyChain(loaded_chain,loaded_len);
 }
