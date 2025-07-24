@@ -65,8 +65,10 @@
 - [x] Demo of a broken `tampered` chain [ v0.3.0 ] [ will tamper `totamper.json` and rename it to `personal_tampered.json` ]
 - [ ] web client                 [ v0.4.0 ]
 - [ ] photo                      [ v0.5.0 ]
-- [x] CGPA
-- [X] SGPA
+- [ ] CGPA
+- [ ] SGPA
+- [ ] give precide naming to verifying / validating blocks and authenticating user and validating the entire chain [conscise and beautiful notifications in cli]
+- [x] added pem files for demo purposes
 - [ ] hosting 
 - [ ] prepare save_to_json , load_from_json
 
