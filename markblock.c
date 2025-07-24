@@ -8,12 +8,7 @@
 
 #define MAX_SUBJECTS 20
 #define MAX_STR 256
-
-typedef struct{
-  char user_id[32];
-  EVP_PKEY *private_key;
-  EVP_PKEY *public_key;
-} User;
+#define MAX_BLOCKS 1000
 
 typedef struct{
   char subject[MAX_STR];
@@ -25,10 +20,9 @@ typedef struct{
   int semester;
   subjectMark subjects[MAX_SUBJECTS];
   int subject_count;
-  time_t timestamp;
+  char timestamp_str[64];
   char prev_hash[65]; // SHA-256 = 64 hex chars + null 
   char hash[65];
-  char signed_by[32];
   unsigned char signature[512]; // 4096 bit rsa
   size_t sig_len;
 } markBlock;
@@ -45,7 +39,7 @@ void compute_hash(markBlock *block){
   memset(data,0,sizeof(data));
   char temp[256];
 
-  snprintf(data,sizeof(data),"%s%d%ld%s",block->student_id,block->semester,block->timestamp,block->prev_hash);
+  snprintf(data,sizeof(data),"%s%d%ld%s",block->student_id,block->semester,block->timestamp_str,block->prev_hash);
 
   for (int i=0;i<block->subject_count;i++){
     snprintf(temp,sizeof(temp),"%s%d",block->subjects[i].subject,block->subjects[i].mark);
@@ -66,7 +60,12 @@ markBlock create_block(const char *student_id,const int semester,const subjectMa
     strncpy(block.subjects[i].subject,subjects[i].subject,MAX_STR-1);
     block.subjects[i].mark=subjects[i].mark;
   }
-  block.timestamp=time(NULL);
+
+
+  time_t now = time(NULL);
+
+  strftime(block.timestamp_str, sizeof(block.timestamp_str), "%Y-%m-%d %H:%M:%S", localtime(&now));
+
   if(prev_hash){
     strncpy(block.prev_hash,prev_hash,64);
     block.prev_hash[64]='\0';
@@ -91,7 +90,7 @@ void get_hash(markBlock *block,char *out_hash){
   // we compute the has while verification
   char data[200];
   char temp[200];
-  snprintf(data,sizeof(data), "%s%d%ld%s",block->student_id,block->semester,block->timestamp,block->prev_hash);
+  snprintf(data,sizeof(data), "%s%d%s%s",block->student_id,block->semester,block->timestamp_str,block->prev_hash);
   for(int i=0;i<block->subject_count;i++){
     snprintf(
         temp,sizeof(temp), "%s%d",block->subjects[i].subject,block->subjects[i].mark);
@@ -137,7 +136,7 @@ int verifyChain(markBlock *chain,int length){
 void print_block(markBlock *block){
   printf("Student ID: %s\n",block->student_id);
   printf("Semester: %d\n",block->semester);
-  printf("Timestamp: %ld\n",block->timestamp);
+  printf("Timestamp: %s\n",block->timestamp_str);
   printf("Subjects: \n");
   for(int i=0;i<block->subject_count;i++){
     printf("%s: %d\n",block->subjects[i].subject,block->subjects[i].mark);

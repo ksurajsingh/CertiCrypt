@@ -15,14 +15,16 @@ int show_menu(){
     "3. Verify Chain [ also verifies Block ]",
     "4. Verify Block [ signature ]",
     "5. Save to Json",      
-    "6. Exit"
+    "6. Display from json",
+    "7. verify from json",
+    "8. Exit"
   };
 
   int choice,highlight=0;
 
   while(1){
     clear();
-    for(int i=0;i<6;i++){
+    for(int i=0;i<8;i++){
       if(i==highlight)
         attron(A_REVERSE);
       mvprintw(i+1,2,choices[i]);
@@ -32,10 +34,10 @@ int show_menu(){
     int c = getch();
     switch(c){
       case KEY_UP:
-        highlight=(highlight==0)?5:highlight-1;
+        highlight=(highlight==0)?7:highlight-1;
         break;
       case KEY_DOWN:
-        highlight=(highlight==5)?0:highlight+1;
+        highlight=(highlight==7)?0:highlight+1;
         break;
       case 10: // enter key
         choice=highlight;
@@ -46,7 +48,12 @@ int show_menu(){
 }
 
 int main(){
-  markBlock chain[100];
+  markBlock *chain = malloc(sizeof(markBlock) * MAX_BLOCKS);
+  if (!chain) {
+      fprintf(stderr, "Memory allocation failed\n");
+      exit(1);
+  }
+  // markBlock chain[MAX_BLOCKS];
   int chain_len=0;
 
   while(1){
@@ -104,10 +111,36 @@ int main(){
           printf("\nEnter the filename to save in: ");
           scanf("%s",filename);
           save_chain_to_json(chain,chain_len,filename);
-      case 5:
+          break;
+      case 5:{
+          char json_filename[50];
+          printf("\nEnter the filename : ");
+          scanf("%s",json_filename);
+          getchar();
+          markBlock *jsonChain=malloc(sizeof(markBlock) * MAX_BLOCKS);
+          if(!jsonChain){
+            fprintf(stderr,"Memory allocation failed\n");
+            exit(1);
+          }
+          int blocks_loaded_from_json = 0;
+          load_chain_from_json(jsonChain,&blocks_loaded_from_json,json_filename);
+          display_chain_from_json(jsonChain,blocks_loaded_from_json);
+          break;
+             }
+      case 6:{
+          char json_filename[50];
+          printf("\nEnter the filename : ");
+          scanf("%s",json_filename);
+          getchar();
+          markBlock jsonChain[MAX_BLOCKS];
+          int blocks_loaded_from_json = 0;
+          load_chain_from_json(jsonChain,&blocks_loaded_from_json,json_filename);
+          verify_chain_from_json(jsonChain,blocks_loaded_from_json);
+          break;
+             }
+      case 7:
           printf("\n 👋 Bye . . . .\n");
           exit(0);
-
     }
     printf("\n\n**** Press enter to menu 📑 ****");
     getchar();
@@ -137,5 +170,7 @@ int main(){
   // print_block(&chain[1]);
   // verifyChain(chain,2); // give the length as ```total blocks - 1``` since last block doesn't need to be verified [ dummy ]
 
+  // free(jsonChain);
+  free(chain);
   return 0;
 }
