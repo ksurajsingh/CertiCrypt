@@ -114,6 +114,7 @@ int verifyChain(markBlock *chain,int length){
   for(int i=1;i<=length;i++){
     printf("\nVerifying block %d signature. . . \n",i-1);
     verifyBlock(&chain[i-1],i-1);
+    if(i==length) continue;
     if (strncmp(chain[i-1].hash,chain[i].prev_hash,64)!=0){ // if the hacker tampers the data AND THE HASH - we check the hash stored in the `prev_hash` of the next block
                                                           //This is efficient since its bypass would make the hacker to change the hash of al the blocks after the tampered block!
       printf("❎ Block %d is tampered! \nHash mismatch",i-1);

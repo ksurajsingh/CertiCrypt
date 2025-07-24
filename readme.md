@@ -1,8 +1,10 @@
 # TODO 
 
-[Immediate]
+--
+[FIXED][Immediate]
 - Its currently considered that the last block isn't verified 
 fix: create a new dummy block as the latest block [ or look for the way that is used in practise ]
+--
 
 ## Phase - 1 
 - [x] Block Structure with   
