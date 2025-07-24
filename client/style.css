@@ -1,0 +1,45 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+nav ul {
+  margin: 200px auto;
+  width: 900px;
+  display:flex;
+}
+
+nav ul{
+  gap:25px;
+  list-style-type:none;
+}
+
+main{
+  width: 1000px;
+  height: 300px;
+  border: 2px solid gold;
+  margin: auto;
+  text-align:center;
+  place-content:center;
+}
+
+#left{
+  width: 200px;
+  left: 0;
+}
+
+#right{
+  width: 200px;
+  position: absolute;
+  right: 0;
+}
+
+footer,#left,#right{
+  text-align:center;
+}
+
+footer{
+  position: absolute;
+  width: 100%;
+  bottom:0;
+}
