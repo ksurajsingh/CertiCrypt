@@ -10,15 +10,16 @@ class Subject {
 }
 
 class Block {
-  constructor(studentId, semester, subjects, prevHash = "0") {
+  constructor(studentId, semester, subjects, subject_count, timestamp, prev_hash, hash, signature){
+  // constructor(studentId, semester, subjects, prevHash = "0") {
     this.student_id = studentId;
     this.semester = semester;
     this.subjects = subjects;
-    this.subject_count = subjects.length;
-    this.timestamp = new Date().toISOString();
-    this.prev_hash = prevHash;
-    this.hash = ""; 
-    this.signature = ""; 
+    this.subject_count = subject_count;
+    this.timestamp = timestamp;
+    this.prev_hash = prev_hash;
+    this.hash = hash; 
+    this.signature = signature; 
   }
 }
 
@@ -76,16 +77,16 @@ function displayFromJson() {
   chain.classList.add('chain');
 
   // fetching json data
-  fetch('http://localhost:8080/db/demo/long.json')
+  fetch('http://localhost:8080/db/demo/personal.json')
     .then(response => response.text())
     .then(text=>{
 
       // processing json data
-      // console.log("received json\n"+text);
+      console.log("received json\n"+text);
       const lines=text.trim().split('\n');
-      // const jsonData=lines.map(line=>JSON.parse(line));
-      // console.log("processed json\n"+jsonData);
-      // console.log(jsonData);
+      const jsonData=lines.map(line=>JSON.parse(line));
+      console.log("processed json\n"+jsonData);
+      console.log(jsonData);
       const blocks=lines.map(line=>{
         const obj=JSON.parse(line);
         return new Block(
@@ -101,9 +102,9 @@ function displayFromJson() {
       });
 
       // displaying the json data
-      // console.log(blocks);
+      console.log(blocks);
       blocks.forEach(block=>{
-        // console.log(block);
+        console.log(block);
         blockHTML=document.createElement('div')
         blockHTML.classList.add('block');
         blockHTML.innerHTML=`
@@ -139,7 +140,7 @@ function verifyFromJson() {
 
 
  // fetching json data
-  fetch('http://localhost:8080/db/demo/personal_tampered.json')
+  fetch('http://localhost:8080/db/demo/personal.json')
     .then(response => response.text())
     .then(text=>{
 
