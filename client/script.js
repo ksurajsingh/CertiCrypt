@@ -1,3 +1,7 @@
+document.addEventListener("DOMContentLoaded", () => {
+  displayFromJson();
+});
+
 class Subject {
   constructor(name, mark) {
     this.subject = name;
@@ -67,12 +71,12 @@ function saveToJson() {
 function displayFromJson() {
 
   const output=document.getElementById('output');
-  output.innerHTML = '<h2>Displaying blocks from JSON</h2> This is a test';
+  output.innerHTML = '<h2>Displaying blocks from JSON</h2>';
   const chain=document.createElement('div');
   chain.classList.add('chain');
 
   // fetching json data
-  fetch('http://localhost:8080/db/demo/personal.json')
+  fetch('http://localhost:8080/db/demo/long.json')
     .then(response => response.text())
     .then(text=>{
 
@@ -106,7 +110,7 @@ function displayFromJson() {
         blockHTML.innerHTML=`
         <div class='blockE'><span class='key'>Student_id: </span><span class='value'>${block.student_id}</span></div>
         <div class='blockE'><span class='key'>Semester: </span><span class='value'>${block.semester}</span></div>
-        <div class='blockE'><span class='key'>Subjects: </span><span class='value'>
+        <div class='blockE subs'><span class='key'>Subjects: </span><span class='value'>
           ${block.subjects.map(sub=>(`<div class='subE'>
               <span class='key'>${sub.subject}: <span><span class='value'>${sub.mark}<span>
               </div>`
