@@ -101,11 +101,10 @@ function displayFromJson() {
       });
 
       // displaying the json data
-      console.log(blocks);
+      // console.log(blocks);
       blocks.forEach(block=>{
-        console.log(block);
+        // console.log(block);
         blockHTML=document.createElement('div')
-        console.log(block);
         blockHTML.classList.add('block');
         blockHTML.innerHTML=`
         <div class='blockE'><span class='key'>Student_id: </span><span class='value'>${block.student_id}</span></div>
