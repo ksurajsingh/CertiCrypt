@@ -19,8 +19,16 @@ main{
   height: 300px;
   border: 2px solid gold;
   margin: auto;
-  text-align:center;
-  place-content:center;
+  /* text-align:center; */
+  /* place-content:center; */
+}
+
+.chain{
+  display: flex;
+}
+
+block{
+  border:2px solid black;
 }
 
 #left{

@@ -65,16 +65,66 @@ function saveToJson() {
 
 
 function displayFromJson() {
-  document.getElementById('output').innerHTML = '<h2>Displaying blocks from JSON</h2> This is a test';
-  fetch('../db/demo/personal.json')
-    .then(response => response.json())
-    .then(data=>{
-      const output=document.getElementById('output');
-      let html=`<h3>Student ID: ${data.student_id}</h3>`;
-      html+=`<h3>Semester: ${data.semester}</h3>`;
-      html+='<h3>Subjects:</h3>ul';
-      data.subjects.forEach()
+
+  const output=document.getElementById('output');
+  output.innerHTML = '<h2>Displaying blocks from JSON</h2> This is a test';
+  const chain=document.createElement('div');
+  chain.classList.add('chain');
+
+  // fetching json data
+  fetch('http://localhost:8080/db/demo/personal.json')
+    .then(response => response.text())
+    .then(text=>{
+
+      // processing json data
+      // console.log("received json\n"+text);
+      const lines=text.trim().split('\n');
+      // const jsonData=lines.map(line=>JSON.parse(line));
+      // console.log("processed json\n"+jsonData);
+      // console.log(jsonData);
+      const blocks=lines.map(line=>{
+        const obj=JSON.parse(line);
+        return new Block(
+          obj.student_id,
+          obj.semester,
+          obj.subjects,
+          obj.subject_count,
+          obj.timestamp,
+          obj.prev_hash,
+          obj.hash,
+          obj.signature
+        );
+      });
+
+      // displaying the json data
+      console.log(blocks);
+      blocks.forEach(block=>{
+        console.log(block);
+        blockHTML=document.createElement('div')
+        console.log(block);
+        blockHTML.classList.add('block');
+        blockHTML.innerHTML=`
+        <div class='blockE'><span class='key'>Student_id: </span><span class='value'>${block.student_id}</span></div>
+        <div class='blockE'><span class='key'>Semester: </span><span class='value'>${block.semester}</span></div>
+        <div class='blockE'><span class='key'>Subjects: </span><span class='value'>
+          ${block.subjects.map(sub=>(`<div class='subE'>
+              <span class='key'>${sub.subject}: <span><span class='value'>${sub.mark}<span>
+              </div>`
+          )).join('')}
+          </span></div>
+        <div class='blockE'><span class='key'>Subject_count: </span><span class='value'>${block.subject_count}</span></div>
+        <div class='blockE'><span class='key'>Timestamp: </span><span class='value'>${block.timestamp}</span></div>
+        <div class='blockE'><span class='key'>Prev_Hash: </span><span class='value'>${block.prev_hash}</span></div>
+        <div class='blockE'><span class='key'>Hash: </span><span class='value'>${block.hash}</span></div>
+        <div class='blockE'><span class='key'>Signature: </span><span class='value'>${block.signature}</span></div>
+        `
+        chain.appendChild(blockHTML);
+      })
+
     })
+   
+  output.appendChild(chain);
+
 }
 
 
